@@ -1,0 +1,32 @@
+dist: bionic
+language: php
+
+php:
+- 8.0
+- 8.1
+
+env:
+  global:
+  - SETUP=stable
+  matrix:
+  - COMPOSER_FLAGS="--prefer-lowest"
+  - COMPOSER_FLAGS=""
+
+cache:
+  directories:
+  - $HOME/.composer/cache
+
+install:
+- if [[ $SETUP = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
+- if [[ $SETUP = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
+
+before_script:
+- travis_retry composer self-update
+- travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+
+script:
+- vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+
+after_script:
+- wget https://scrutinizer-ci.com/ocular.phar
+- php ocular.phar code-coverage:upload --format=php-clover coverage.clover

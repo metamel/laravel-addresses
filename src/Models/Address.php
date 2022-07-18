@@ -1,0 +1,279 @@
+<?php
+
+namespace Metamel\Addresses\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Jackpopp\GeoDistance\GeoDistanceTrait;
+use Rinvex\Country\Country;
+use Rinvex\Country\CountryLoaderException;
+
+/**
+ * Metamel\Addresses\Models\Address.
+ *
+ * @property int $id
+ * @property int $addressable_id
+ * @property string $addressable_type
+ * @property string|null $label
+ * @property string|null $salutation
+ * @property string|null $name
+ * @property string|null $organization
+ * @property string|null $value_added_tax
+ * @property string|null $country_code
+ * @property string|null $state
+ * @property string|null $street
+ * @property string|null $postal_code
+ * @property string|null $city
+ * @property float $latitude
+ * @property float $longitude
+ * @property bool $is_primary
+ * @property bool $is_billing
+ * @property bool $is_shipping
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $addressable
+ * @property-read \Rinvex\Country\Country|null $country
+ * @property-read string|null $formatted_address
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address inCountry($countryCode)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isBilling()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isPrimary()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isShipping()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address outside($distance, $measurement = null, $latitude = null, $longitude = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereAddressableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereAddressableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereCountryCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereSalutation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereOrganization($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereValueAddedTax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereIsBilling($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereIsPrimary($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereIsShipping($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address wherePostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereStreet($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address within($distance, $measurement = null, $latitude = null, $longitude = null)
+ * @mixin \Eloquent
+ */
+class Address extends Model
+{
+    use HasFactory, SoftDeletes, GeoDistanceTrait;
+
+    public const ADDRESSABLE = 'addressable';
+
+    public const COL_ADDRESSABLE_ID = 'addressable_id';
+
+    public const COL_ADDRESSABLE_TYPE = 'addressable_type';
+
+    public const COL_CITY = 'city';
+
+    public const COL_COUNTRY_CODE = 'country_code';
+
+    public const COL_DELETED_AT = 'deleted_at';
+
+    public const COL_ID = 'id';
+
+    public const COL_IS_BILLING = 'is_billing';
+
+    public const COL_IS_PRIMARY = 'is_primary';
+
+    public const COL_IS_SHIPPING = 'is_shipping';
+
+    public const COL_LABEL = 'label';
+
+    public const COL_LATITUDE = 'latitude';
+
+    public const COL_LONGITUDE = 'longitude';
+
+    public const COL_NAME = 'name';
+
+    public const COL_ORGANIZATION = 'organization';
+
+    public const COL_POSTAL_CODE = 'postal_code';
+
+    public const COL_SALUTATION = 'salutation';
+
+    public const COL_STATE = 'state';
+
+    public const COL_STREET = 'street';
+
+    public const COL_VALUE_ADDED_TAX = 'value_addes_tax';
+
+    public const COUNTRY = 'country';
+
+    public const FORMATTED_ADDRESS = 'formatted_address';
+
+    public const MEASUREMENT_FEET = 'feet';
+
+    public const MEASUREMENT_KILOMETERS = 'kilometers';
+
+    public const MEASUREMENT_METERS = 'meters';
+
+    public const MEASUREMENT_MILES = 'miles';
+
+    public const MEASUREMENT_NAUTICAL_MILES = 'nautical_miles';
+
+    protected $appends = [
+        self::COUNTRY,
+        self::FORMATTED_ADDRESS,
+    ];
+
+    protected $casts = [
+        self::COL_ADDRESSABLE_ID => 'integer',
+        self::COL_ADDRESSABLE_TYPE => 'string',
+        self::COL_LATITUDE => 'float',
+        self::COL_LONGITUDE => 'float',
+        self::COL_IS_PRIMARY => 'boolean',
+        self::COL_IS_BILLING => 'boolean',
+        self::COL_IS_SHIPPING => 'boolean',
+        self::COL_DELETED_AT => 'datetime',
+    ];
+
+    protected $fillable = [
+        self::COL_ADDRESSABLE_ID,
+        self::COL_ADDRESSABLE_TYPE,
+        self::COL_LABEL,
+        self::COL_SALUTATION,
+        self::COL_NAME,
+        self::COL_ORGANIZATION,
+        self::COL_VALUE_ADDED_TAX,
+        self::COL_COUNTRY_CODE,
+        self::COL_STREET,
+        self::COL_STATE,
+        self::COL_CITY,
+        self::COL_POSTAL_CODE,
+        self::COL_LATITUDE,
+        self::COL_LONGITUDE,
+        self::COL_IS_PRIMARY,
+        self::COL_IS_BILLING,
+        self::COL_IS_SHIPPING,
+    ];
+
+    public function __construct(array $attributes = [])
+    {
+        $this->setTable(config('addresses.tables.addresses'));
+        $this->latColumn = self::COL_LATITUDE;
+        $this->lngColumn = self::COL_LONGITUDE;
+
+        parent::__construct($attributes);
+    }
+
+    public function addressable(): MorphTo
+    {
+        return $this->morphTo(self::ADDRESSABLE, self::COL_ADDRESSABLE_TYPE, self::COL_ADDRESSABLE_ID, self::COL_ID);
+    }
+
+    public function getFormattedAddressAttribute(): ?string
+    {
+        $country = $this->country;
+        if ($country === null) {
+            return null;
+        }
+
+        $addressFormat = $country->getAddressFormat();
+        if ($addressFormat === null) {
+            return null;
+        }
+
+        return str_replace(
+            [
+                '{{recipient}}',
+                '{{street}}',
+                '{{postalcode}}',
+                '{{city}}',
+                '{{country}}',
+                '{{region}}',
+                '{{region_short}}',
+            ],
+            [
+                $this->organization ?? $this->name,
+                $this->street,
+                $this->postal_code,
+                $this->city,
+                $country->getName(),
+                '',
+                ''
+            ],
+            $addressFormat
+        );
+    }
+
+    public function scopeInCountry(Builder $builder, string $countryCode): Builder
+    {
+        return $builder->where(self::COL_COUNTRY_CODE, $countryCode);
+    }
+
+    public function scopeIsBilling(Builder $builder): Builder
+    {
+        return $builder->where(self::COL_IS_BILLING, true);
+    }
+
+    public function scopeIsPrimary(Builder $builder): Builder
+    {
+        return $builder->where(self::COL_IS_PRIMARY, true);
+    }
+
+    public function scopeIsShipping(Builder $builder): Builder
+    {
+        return $builder->where(self::COL_IS_SHIPPING, true);
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::saving(static function (self $address) {
+            $geocodingEnabled = config('addresses.geocoding.enabled');
+            $geocodingApiKey = config('addresses.geocoding.api_key');
+
+            if ($geocodingEnabled && $geocodingApiKey) {
+                $segments[] = $address->street;
+                $segments[] = sprintf('%s, %s %s', $address->city, $address->state, $address->postal_code);
+                $segments[] = country($address->country_code)->getName();
+
+                $googleGeocodeUrl = sprintf(
+                    "https://maps.google.com/maps/api/geocode/json?address=%s&sensor=false&key=%s",
+                    str_replace(' ', '+', implode(', ', $segments)),
+                    $geocodingApiKey
+                );
+
+                $encodedGoogleGeocodeResponse = file_get_contents($googleGeocodeUrl, true);
+
+                $geocode = json_decode(
+                    $encodedGoogleGeocodeResponse,
+                    false,
+                    512,
+                    JSON_THROW_ON_ERROR
+                );
+
+                if (count($geocode->results)) {
+                    $address->latitude = $geocode->results[0]->geometry->location->lat;
+                    $address->longitude = $geocode->results[0]->geometry->location->lng;
+                }
+            }
+        });
+    }
+
+    private function getCountryAttribute(): ?Country
+    {
+        if ($this->country_code === null) {
+            return null;
+        }
+
+        try {
+            return country($this->country_code);
+        } catch (CountryLoaderException $exception) {
+            return null;
+        }
+    }
+}

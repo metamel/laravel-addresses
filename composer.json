@@ -1,0 +1,80 @@
+{
+    "name": "metamel/laravel-addresses",
+    "description": "Metamel Addresses is a polymorphic Laravel package, for address book management. You can add addresses to any eloquent model with ease.",
+    "type": "library",
+    "keywords": [
+        "city",
+        "state",
+        "model",
+        "postal",
+        "metamel",
+        "street",
+        "address",
+        "laravel",
+        "country",
+        "primary",
+        "billing",
+        "shipping",
+        "eloquent",
+        "latitude",
+        "longitude",
+        "addressable",
+        "polymorphic",
+        "rinvex"
+    ],
+    "license": "MIT",
+    "homepage": "https://metamel.com",
+    "support": {
+        "email": "tech.help@metamel.com",
+        "issues": "https://github.com/metamel/laravel-addresses/issues",
+        "source": "https://github.com/metamel/laravel-addresses",
+        "docs": "https://github.com/metamel/laravel-addresses/README.md"
+    },
+    "authors": [
+        {
+            "name": "Metamel",
+            "homepage": "https://metamel.com",
+            "email": "tech.help@metamel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0.0",
+        "illuminate/console": "^9.0.0 || ^10.0.0",
+        "illuminate/database": "^9.0.0 || ^10.0.0",
+        "illuminate/support": "^9.0.0 || ^10.0.0",
+        "jackpopp/geodistance": "^1.2.0",
+        "rinvex/countries": "^8.0.0"
+    },
+    "require-dev": {
+        "codedungeon/phpunit-result-printer": "^0.31.0",
+        "illuminate/container": "^9.0.0 || ^10.0.0",
+        "phpunit/phpunit": "^9.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Metamel\\Addresses\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Metamel\\Addresses\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Metamel\\Addresses\\Providers\\AddressesServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
