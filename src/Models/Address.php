@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Metamel\Addresses\Models;
 
@@ -16,30 +16,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Metamel\Addresses\Models\Address.
  *
- * @property int                 $id
- * @property int                 $addressable_id
- * @property string              $addressable_type
- * @property string|null         $label
- * @property string|null         $salutation
- * @property string|null         $name
- * @property string|null         $organization
- * @property string|null         $value_added_tax
- * @property string|null         $country_code
- * @property string|null         $state
- * @property string|null         $street
- * @property string|null         $postal_code
- * @property string|null         $city
- * @property float               $latitude
- * @property float               $longitude
- * @property bool                $is_primary
- * @property bool                $is_billing
- * @property bool                $is_shipping
+ * @property int $id
+ * @property int $addressable_id
+ * @property string $addressable_type
+ * @property string|null $label
+ * @property string|null $salutation
+ * @property string|null $name
+ * @property string|null $organization
+ * @property string|null $value_added_tax
+ * @property string|null $country_code
+ * @property string|null $state
+ * @property string|null $street
+ * @property string|null $postal_code
+ * @property string|null $city
+ * @property float $latitude
+ * @property float $longitude
+ * @property bool $is_primary
+ * @property bool $is_billing
+ * @property bool $is_shipping
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $addressable
  * @property-read \Rinvex\Country\Country|null $country
  * @property-read string|null $formatted_address
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address inCountry($countryCode)
  * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isBilling()
  * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isPrimary()
@@ -178,6 +177,19 @@ class Address extends Model
         return $this->morphTo(self::ADDRESSABLE, self::COL_ADDRESSABLE_TYPE, self::COL_ADDRESSABLE_ID, self::COL_ID);
     }
 
+    public function getCountryAttribute(): ?Country
+    {
+        if ($this->country_code === null) {
+            return null;
+        }
+
+        try {
+            return country($this->country_code);
+        } catch (CountryLoaderException $exception) {
+            return null;
+        }
+    }
+
     public function getFormattedAddressAttribute(): ?string
     {
         $country = $this->country;
@@ -267,18 +279,5 @@ class Address extends Model
                 }
             }
         });
-    }
-
-    private function getCountryAttribute(): ?Country
-    {
-        if ($this->country_code === null) {
-            return null;
-        }
-
-        try {
-            return country($this->country_code);
-        } catch (CountryLoaderException $exception) {
-            return null;
-        }
     }
 }
