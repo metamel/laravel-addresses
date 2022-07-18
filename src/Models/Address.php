@@ -1,42 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Metamel\Addresses\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Jackpopp\GeoDistance\GeoDistanceTrait;
 use Rinvex\Country\Country;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Jackpopp\GeoDistance\GeoDistanceTrait;
 use Rinvex\Country\CountryLoaderException;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Metamel\Addresses\Models\Address.
  *
- * @property int $id
- * @property int $addressable_id
- * @property string $addressable_type
- * @property string|null $label
- * @property string|null $salutation
- * @property string|null $name
- * @property string|null $organization
- * @property string|null $value_added_tax
- * @property string|null $country_code
- * @property string|null $state
- * @property string|null $street
- * @property string|null $postal_code
- * @property string|null $city
- * @property float $latitude
- * @property float $longitude
- * @property bool $is_primary
- * @property bool $is_billing
- * @property bool $is_shipping
+ * @property int                 $id
+ * @property int                 $addressable_id
+ * @property string              $addressable_type
+ * @property string|null         $label
+ * @property string|null         $salutation
+ * @property string|null         $name
+ * @property string|null         $organization
+ * @property string|null         $value_added_tax
+ * @property string|null         $country_code
+ * @property string|null         $state
+ * @property string|null         $street
+ * @property string|null         $postal_code
+ * @property string|null         $city
+ * @property float               $latitude
+ * @property float               $longitude
+ * @property bool                $is_primary
+ * @property bool                $is_billing
+ * @property bool                $is_shipping
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $addressable
  * @property-read \Rinvex\Country\Country|null $country
  * @property-read string|null $formatted_address
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address inCountry($countryCode)
  * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isBilling()
  * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isPrimary()
@@ -67,7 +70,9 @@ use Rinvex\Country\CountryLoaderException;
  */
 class Address extends Model
 {
-    use HasFactory, SoftDeletes, GeoDistanceTrait;
+    use HasFactory;
+    use SoftDeletes;
+    use GeoDistanceTrait;
 
     public const ADDRESSABLE = 'addressable';
 
@@ -202,7 +207,7 @@ class Address extends Model
                 $this->city,
                 $country->getName(),
                 '',
-                ''
+                '',
             ],
             $addressFormat
         );
@@ -242,7 +247,7 @@ class Address extends Model
                 $segments[] = country($address->country_code)->getName();
 
                 $googleGeocodeUrl = sprintf(
-                    "https://maps.google.com/maps/api/geocode/json?address=%s&sensor=false&key=%s",
+                    'https://maps.google.com/maps/api/geocode/json?address=%s&sensor=false&key=%s',
                     str_replace(' ', '+', implode(', ', $segments)),
                     $geocodingApiKey
                 );

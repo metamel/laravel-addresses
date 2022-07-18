@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Metamel\Addresses\Providers;
 
 use Illuminate\Support\ServiceProvider;
