@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Metamel\Addresses\Traits;
 
@@ -49,8 +49,8 @@ trait Addressable
     /**
      * Find addressable by distance.
      *
-     * @param float $distance
-     * @param string|null $measurementUnit
+     * @param float             $distance
+     * @param string|null       $measurementUnit
      * @param float|string|null $latitude
      * @param float|string|null $longitude
      *
@@ -68,8 +68,8 @@ trait Addressable
     /**
      * Define a polymorphic one-to-many relationship.
      *
-     * @param string $related
-     * @param string $name
+     * @param string      $related
+     * @param string      $name
      * @param string|null $type
      * @param string|null $id
      * @param string|null $localKey
