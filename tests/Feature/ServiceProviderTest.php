@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Metamel\Addresses\Tests\Feature;
 
+use ReflectionClass;
+use PHPUnit\Framework\TestCase;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Metamel\Addresses\Providers\AddressesServiceProvider;
-use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 class ServiceProviderTest extends TestCase
 {
