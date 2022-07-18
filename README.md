@@ -4,10 +4,8 @@
 A polymorphic Laravel package to manage addresses. This package allow you to add addresses to any eloquent model with ease.
 
 [![Packagist](https://img.shields.io/packagist/v/metamel/laravel-addresses.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/metamel/laravel-addresses)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/metamel/laravel-addresses.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/metamel/laravel-addresses/)
-[![Travis](https://img.shields.io/travis/metamel/laravel-addresses.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/metamel/laravel-addresses)
-[![StyleCI](https://styleci.io/repos/87485079/shield)](https://styleci.io/repos/87485079)
-[![License](https://img.shields.io/packagist/l/metamel/laravel-addresses.svg?label=License&style=flat-square)](https://github.com/metamel/laravel-addresses/blob/develop/LICENSE)
+[![StyleCI](https://styleci.io/repos/87485079/shield)](https://github.styleci.io/repos/514330847)
+[![License](https://img.shields.io/packagist/l/metamel/laravel-addresses.svg?label=License&style=flat-square)](https://github.com/metamel/laravel-addresses/blob/main/LICENSE)
 
 
 ## Installation
