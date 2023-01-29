@@ -59,8 +59,8 @@ trait Addressable
     public function findByDistance(
         float $distance,
         ?string $measurementUnit = null,
-        float|string $latitude = null,
-        float|string $longitude = null
+        float|string|null $latitude = null,
+        float|string|null $longitude = null
     ): Collection {
         return $this->addresses()->within($distance, $measurementUnit, $latitude, $longitude)->get();
     }

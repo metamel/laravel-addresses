@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Metamel\Addresses\Models;
 
@@ -14,58 +14,67 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Metamel\Addresses\Models\Address.
+ * Metamel\Addresses\Models\Address\Address
  *
- * @property int                 $id
- * @property int                 $addressable_id
- * @property string              $addressable_type
- * @property string|null         $label
- * @property string|null         $salutation
- * @property string|null         $name
- * @property string|null         $organization
- * @property string|null         $value_added_tax
- * @property string|null         $country_code
- * @property string|null         $state
- * @property string|null         $street
- * @property string|null         $postal_code
- * @property string|null         $city
- * @property float               $latitude
- * @property float               $longitude
- * @property bool                $is_primary
- * @property bool                $is_billing
- * @property bool                $is_shipping
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property int $id
+ * @property string $addressable_type
+ * @property int $addressable_id
+ * @property string|null $label
+ * @property string|null $salutation
+ * @property string|null $name
+ * @property string|null $value_added_tax
+ * @property string|null $country_code
+ * @property string|null $state
+ * @property string|null $postal_code
+ * @property string|null $city
+ * @property string|null $street
+ * @property float|null $latitude
+ * @property float|null $longitude
+ * @property string|null $email
+ * @property string|null $phone
+ * @property bool $is_primary
+ * @property bool $is_billing
+ * @property bool $is_shipping
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $addressable
  * @property-read \Rinvex\Country\Country|null $country
  * @property-read string|null $formatted_address
- *
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address inCountry($countryCode)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isBilling()
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isPrimary()
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address isShipping()
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address outside($distance, $measurement = null, $latitude = null, $longitude = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereAddressableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereAddressableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereCountryCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereSalutation($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereOrganization($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereValueAddedTax($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereIsBilling($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereIsPrimary($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereIsShipping($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereLabel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereLatitude($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereLongitude($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address wherePostalCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereState($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereStreet($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Metamel\Addresses\Models\Address within($distance, $measurement = null, $latitude = null, $longitude = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address inCountry(string $countryCode)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address isBilling()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address isPrimary()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address isShipping()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Address onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address outside($distance, $measurement = null, $lat = null, $lng = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereAddressableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereAddressableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereCountryCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereIsBilling($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereIsPrimary($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereIsShipping($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address wherePostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereSalutation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereStreet($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereValueAddedTax($value)
+ * @method static \Illuminate\Database\Query\Builder|Address withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address within($distance, $measurement = null, $lat = null, $lng = null)
+ * @method static \Illuminate\Database\Query\Builder|Address withoutTrashed()
  * @mixin \Eloquent
  */
 class Address extends Model
@@ -86,6 +95,8 @@ class Address extends Model
 
     public const COL_DELETED_AT = 'deleted_at';
 
+    public const COL_EMAIL = 'email';
+
     public const COL_ID = 'id';
 
     public const COL_IS_BILLING = 'is_billing';
@@ -102,7 +113,7 @@ class Address extends Model
 
     public const COL_NAME = 'name';
 
-    public const COL_ORGANIZATION = 'organization';
+    public const COL_PHONE = 'phone';
 
     public const COL_POSTAL_CODE = 'postal_code';
 
@@ -150,7 +161,6 @@ class Address extends Model
         self::COL_LABEL,
         self::COL_SALUTATION,
         self::COL_NAME,
-        self::COL_ORGANIZATION,
         self::COL_VALUE_ADDED_TAX,
         self::COL_COUNTRY_CODE,
         self::COL_STREET,
@@ -159,6 +169,8 @@ class Address extends Model
         self::COL_POSTAL_CODE,
         self::COL_LATITUDE,
         self::COL_LONGITUDE,
+        self::COL_PHONE,
+        self::COL_EMAIL,
         self::COL_IS_PRIMARY,
         self::COL_IS_BILLING,
         self::COL_IS_SHIPPING,
@@ -198,10 +210,7 @@ class Address extends Model
             return null;
         }
 
-        $addressFormat = $country->getAddressFormat();
-        if ($addressFormat === null) {
-            return null;
-        }
+        $addressFormat = $country->getAddressFormat() ?? $this->getDefaultAddressFormat();
 
         return str_replace(
             [
@@ -214,13 +223,13 @@ class Address extends Model
                 '{{region_short}}',
             ],
             [
-                $this->organization ?? $this->name,
+                $this->name,
                 $this->street,
                 $this->postal_code,
                 $this->city,
                 $country->getName(),
-                '',
-                '',
+                $country->getRegion(),
+                $country->getRegionCode(),
             ],
             $addressFormat
         );
@@ -280,5 +289,10 @@ class Address extends Model
                 }
             }
         });
+    }
+
+    protected function getDefaultAddressFormat(): string
+    {
+        return "{{recipient}}\n{{street}}\n{{postalcode}} {{city}}\n{{country}}\n{{region}}\n{{region_short}}";
     }
 }
