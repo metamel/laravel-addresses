@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Metamel\Addresses\Traits;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Metamel\Addresses\Models\Address;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait Addressable
 {
@@ -40,7 +40,11 @@ trait Addressable
     /**
      * Register a deleted model event with the dispatcher.
      *
-     * @param \Closure|string $callback
+     * @inheritdoc
+     *
+     * @see \Illuminate\Database\Eloquent\Concerns\HasEvents::deleted
+     *
+     * @param array|\Closure|\Illuminate\Events\QueuedClosure|string $callback
      *
      * @return void
      */
@@ -49,18 +53,18 @@ trait Addressable
     /**
      * Find addressable by distance.
      *
-     * @param float             $distance
-     * @param string|null       $measurementUnit
-     * @param float|string|null $latitude
-     * @param float|string|null $longitude
+     * @param float $distance
+     * @param string|null $measurementUnit
+     * @param float|null $latitude
+     * @param float|null $longitude
      *
      * @return \Illuminate\Support\Collection<static>
      */
     public function findByDistance(
         float $distance,
         ?string $measurementUnit = null,
-        float|string|null $latitude = null,
-        float|string|null $longitude = null
+        ?float $latitude = null,
+        ?float $longitude = null
     ): Collection {
         return $this->addresses()->within($distance, $measurementUnit, $latitude, $longitude)->get();
     }
@@ -68,8 +72,12 @@ trait Addressable
     /**
      * Define a polymorphic one-to-many relationship.
      *
-     * @param string      $related
-     * @param string      $name
+     * @inheritdoc
+     *
+     * @see \Illuminate\Database\Eloquent\Concerns\HasRelationships::morphMany
+     *
+     * @param string $related
+     * @param string $name
      * @param string|null $type
      * @param string|null $id
      * @param string|null $localKey

@@ -4,14 +4,14 @@ declare(strict_types = 1);
 
 namespace Metamel\Addresses\Models;
 
-use Rinvex\Country\Country;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Jackpopp\GeoDistance\GeoDistanceTrait;
-use Rinvex\Country\CountryLoaderException;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Jackpopp\GeoDistance\GeoDistanceTrait;
+use Rinvex\Country\Country;
+use Rinvex\Country\CountryLoaderException;
 
 /**
  * Metamel\Addresses\Models\Address\Address
