@@ -1,6 +1,9 @@
 preset: recommended
-risky: true
-
+risky: false
+linting: true
+use-tabs: false
+tab-width: 4
+version: 8.1
 enabled:
   - dir_constant
   - ereg_to_preg
