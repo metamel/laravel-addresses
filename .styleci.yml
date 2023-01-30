@@ -1,5 +1,5 @@
 preset: recommended
-risky: false
+risky: true
 use-tabs: false
 tab-width: 4
 version: 8.1
