@@ -17,7 +17,7 @@ class AddressesServiceProvider extends ServiceProvider
     {
         $this->publishes(
             [
-                __DIR__.'/../../config/config.php' => config_path('addresses.php'),
+                __DIR__.'/../../config/addresses.php' => config_path('addresses.php'),
             ],
             'addresses-config'
         );
