@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Metamel\Addresses\Traits;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Metamel\Addresses\Models\Address;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait Addressable
 {
@@ -53,10 +53,10 @@ trait Addressable
     /**
      * Find addressable by distance.
      *
-     * @param float $distance
+     * @param float       $distance
      * @param string|null $measurementUnit
-     * @param float|null $latitude
-     * @param float|null $longitude
+     * @param float|null  $latitude
+     * @param float|null  $longitude
      *
      * @return \Illuminate\Support\Collection<static>
      */
@@ -76,8 +76,8 @@ trait Addressable
      *
      * @see \Illuminate\Database\Eloquent\Concerns\HasRelationships::morphMany
      *
-     * @param string $related
-     * @param string $name
+     * @param string      $related
+     * @param string      $name
      * @param string|null $type
      * @param string|null $id
      * @param string|null $localKey

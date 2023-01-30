@@ -1,46 +1,47 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Metamel\Addresses\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Jackpopp\GeoDistance\GeoDistanceTrait;
 use Rinvex\Country\Country;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Jackpopp\GeoDistance\GeoDistanceTrait;
 use Rinvex\Country\CountryLoaderException;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Metamel\Addresses\Models\Address
+ * Metamel\Addresses\Models\Address.
  *
- * @property int $id
- * @property string $addressable_type
- * @property int $addressable_id
- * @property string|null $label
- * @property string|null $salutation
- * @property string|null $name
- * @property string|null $value_added_tax
- * @property string|null $country_code
- * @property string|null $state
- * @property string|null $postal_code
- * @property string|null $city
- * @property string|null $street
- * @property float|null $latitude
- * @property float|null $longitude
- * @property string|null $email
- * @property string|null $phone
- * @property bool $is_primary
- * @property bool $is_billing
- * @property bool $is_shipping
+ * @property int                             $id
+ * @property string                          $addressable_type
+ * @property int                             $addressable_id
+ * @property string|null                     $label
+ * @property string|null                     $salutation
+ * @property string|null                     $name
+ * @property string|null                     $value_added_tax
+ * @property string|null                     $country_code
+ * @property string|null                     $state
+ * @property string|null                     $postal_code
+ * @property string|null                     $city
+ * @property string|null                     $street
+ * @property float|null                      $latitude
+ * @property float|null                      $longitude
+ * @property string|null                     $email
+ * @property string|null                     $phone
+ * @property bool                            $is_primary
+ * @property bool                            $is_billing
+ * @property bool                            $is_shipping
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $addressable
  * @property-read \Rinvex\Country\Country|null $country
  * @property-read string|null $formatted_address
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Address inCountry(string $countryCode)
  * @method static \Illuminate\Database\Eloquent\Builder|Address isBilling()
  * @method static \Illuminate\Database\Eloquent\Builder|Address isPrimary()
