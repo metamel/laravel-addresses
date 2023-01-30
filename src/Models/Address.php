@@ -14,7 +14,7 @@ use Rinvex\Country\Country;
 use Rinvex\Country\CountryLoaderException;
 
 /**
- * Metamel\Addresses\Models\Address\Address
+ * Metamel\Addresses\Models\Address
  *
  * @property int $id
  * @property string $addressable_type
