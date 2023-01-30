@@ -46,3 +46,4 @@ enabled:
 disabled:
   - align_double_arrow
   - alpha_ordered_imports
+  - single_line_comment_spacing
