@@ -15,7 +15,7 @@ class AlterAddressesTable extends Migration
             $table->dropIndex('state');
             $table->dropIndex('postal_code');
             $table->dropIndex('value_added_tax');
-            $table->dropColumn(['phone', 'email']);
+            $table->dropColumn(['phone', 'email', 'phone_country_code']);
         });
     }
 
@@ -27,6 +27,8 @@ class AlterAddressesTable extends Migration
             $table->index('state', 'state');
             $table->index('postal_code', 'postal_code');
             $table->index('value_added_tax', 'value_added_tax');
+
+            $table->string('phone_country_code')->nullable()->index('phone_country_code');
 
             $table->string('phone')->nullable()->index('phone')->after('longitude');
             $table->string('email')->nullable()->index('email')->after('longitude');
