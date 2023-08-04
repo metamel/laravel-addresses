@@ -115,6 +115,8 @@ class Address extends Model
 
     public const COL_PHONE = 'phone';
 
+    public const COL_PHONE_COUNTRY_CODE = 'phone_country_code';
+
     public const COL_POSTAL_CODE = 'postal_code';
 
     public const COL_SALUTATION = 'salutation';
@@ -170,6 +172,7 @@ class Address extends Model
         self::COL_LATITUDE,
         self::COL_LONGITUDE,
         self::COL_PHONE,
+        self::COL_PHONE_COUNTRY_CODE,
         self::COL_EMAIL,
         self::COL_IS_PRIMARY,
         self::COL_IS_BILLING,
