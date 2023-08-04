@@ -125,7 +125,7 @@ class Address extends Model
 
     public const COL_STREET = 'street';
 
-    public const COL_VALUE_ADDED_TAX = 'value_addes_tax';
+    public const COL_VALUE_ADDED_TAX = 'value_added_tax';
 
     public const COUNTRY = 'country';
 
