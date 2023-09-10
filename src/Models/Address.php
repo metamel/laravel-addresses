@@ -141,11 +141,6 @@ class Address extends Model
 
     public const MEASUREMENT_NAUTICAL_MILES = 'nautical_miles';
 
-    protected $appends = [
-        self::COUNTRY,
-        self::FORMATTED_ADDRESS,
-    ];
-
     protected $casts = [
         self::COL_ADDRESSABLE_ID => 'integer',
         self::COL_ADDRESSABLE_TYPE => 'string',
