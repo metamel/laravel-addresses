@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Metamel\Addresses\Traits;
 
+use Closure;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Events\QueuedClosure;
 use Illuminate\Support\Collection;
 use Metamel\Addresses\Models\Address;
 
@@ -46,7 +48,7 @@ trait Addressable
      * @see \Illuminate\Database\Eloquent\Concerns\HasEvents::deleted
      */
     abstract public static function deleted(
-        array|\Closure|string $callback
+        array|Closure|QueuedClosure|string $callback
     ): void;
 
     /**
