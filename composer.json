@@ -70,6 +70,9 @@
         "optimize-autoloader": true
     },
     "extra": {
+      "branch-alias": {
+        "dev-main": "2.0.4-dev"
+      },
         "laravel": {
             "providers": [
                 "Metamel\\Addresses\\Providers\\AddressesServiceProvider"

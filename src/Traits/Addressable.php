@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Metamel\Addresses\Traits;
 
-use Closure;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Events\QueuedClosure;
 use Illuminate\Support\Collection;
 use Metamel\Addresses\Models\Address;
 
@@ -47,9 +45,7 @@ trait Addressable
      * @return void
      * @see \Illuminate\Database\Eloquent\Concerns\HasEvents::deleted
      */
-    abstract public static function deleted(
-        array|Closure|QueuedClosure|string $callback
-    ): void;
+    abstract public static function deleted($callback);
 
     /**
      * Find addressable by distance.
@@ -84,10 +80,10 @@ trait Addressable
      * @see \Illuminate\Database\Eloquent\Concerns\HasRelationships::morphMany
      */
     abstract public function morphMany(
-        string $related,
-        string $name,
-        ?string $type = null,
-        ?string $id = null,
-        ?string $localKey = null
-    ): MorphMany;
+        $related,
+        $name,
+        $type = null,
+        $id = null,
+        $localKey = null
+    );
 }
