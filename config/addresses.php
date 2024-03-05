@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 return [
-
     // Manage autoload migrations
     'autoload_migrations' => true,
 
@@ -22,5 +21,4 @@ return [
         'enabled' => false,
         'api_key' => env('GOOGLE_APP_KEY'),
     ],
-
 ];

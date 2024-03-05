@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Metamel\Addresses\Models;
 
@@ -41,6 +41,7 @@ use Rinvex\Country\CountryLoaderException;
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $addressable
  * @property-read \Rinvex\Country\Country|null $country
  * @property-read string|null $formatted_address
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Address inCountry(string $countryCode)
  * @method static \Illuminate\Database\Eloquent\Builder|Address isBilling()
  * @method static \Illuminate\Database\Eloquent\Builder|Address isPrimary()
@@ -75,13 +76,14 @@ use Rinvex\Country\CountryLoaderException;
  * @method static \Illuminate\Database\Query\Builder|Address withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Address within($distance, $measurement = null, $lat = null, $lng = null)
  * @method static \Illuminate\Database\Query\Builder|Address withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Address extends Model
 {
+    use GeoDistanceTrait;
     use HasFactory;
     use SoftDeletes;
-    use GeoDistanceTrait;
 
     public const ADDRESSABLE = 'addressable';
 
@@ -185,7 +187,12 @@ class Address extends Model
 
     public function addressable(): MorphTo
     {
-        return $this->morphTo(self::ADDRESSABLE, self::COL_ADDRESSABLE_TYPE, self::COL_ADDRESSABLE_ID, self::COL_ID);
+        return $this->morphTo(
+            self::ADDRESSABLE,
+            self::COL_ADDRESSABLE_TYPE,
+            self::COL_ADDRESSABLE_ID,
+            self::COL_ID
+        );
     }
 
     public function getCountryAttribute(): ?Country
@@ -233,8 +240,10 @@ class Address extends Model
         );
     }
 
-    public function scopeInCountry(Builder $builder, string $countryCode): Builder
-    {
+    public function scopeInCountry(
+        Builder $builder,
+        string $countryCode
+    ): Builder {
         return $builder->where(self::COL_COUNTRY_CODE, $countryCode);
     }
 
@@ -263,7 +272,12 @@ class Address extends Model
 
             if ($geocodingEnabled && $geocodingApiKey) {
                 $segments[] = $address->street;
-                $segments[] = sprintf('%s, %s %s', $address->city, $address->state, $address->postal_code);
+                $segments[] = sprintf(
+                    '%s, %s %s',
+                    $address->city,
+                    $address->state,
+                    $address->postal_code
+                );
                 $segments[] = country($address->country_code)->getName();
 
                 $googleGeocodeUrl = sprintf(
@@ -272,7 +286,10 @@ class Address extends Model
                     $geocodingApiKey
                 );
 
-                $encodedGoogleGeocodeResponse = file_get_contents($googleGeocodeUrl, true);
+                $encodedGoogleGeocodeResponse = file_get_contents(
+                    $googleGeocodeUrl,
+                    true
+                );
 
                 $geocode = json_decode(
                     $encodedGoogleGeocodeResponse,

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Metamel\Addresses\Traits;
 
@@ -15,7 +15,7 @@ trait Addressable
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany|\Metamel\Addresses\Models\Address
      */
-    public function addresses(): MorphMany
+    public function addresses(): MorphMany|Address
     {
         return $this->morphMany(
             config('addresses.models.address'),
@@ -27,8 +27,6 @@ trait Addressable
 
     /**
      * Boot the addressable trait for the model.
-     *
-     * @return void
      */
     public static function bootAddressable(): void
     {
@@ -40,23 +38,20 @@ trait Addressable
     /**
      * Register a deleted model event with the dispatcher.
      *
-     * @inheritdoc
-     *
-     * @see \Illuminate\Database\Eloquent\Concerns\HasEvents::deleted
+     * {@inheritdoc}
      *
      * @param array|\Closure|\Illuminate\Events\QueuedClosure|string $callback
      *
      * @return void
+     * @see \Illuminate\Database\Eloquent\Concerns\HasEvents::deleted
      */
-    abstract public static function deleted($callback);
+    abstract public static function deleted(
+        array|\Closure|string $callback
+    ): void;
 
     /**
      * Find addressable by distance.
      *
-     * @param float $distance
-     * @param string|null $measurementUnit
-     * @param float|null $latitude
-     * @param float|null $longitude
      *
      * @return \Illuminate\Support\Collection<static>
      */
@@ -66,15 +61,16 @@ trait Addressable
         ?float $latitude = null,
         ?float $longitude = null
     ): Collection {
-        return $this->addresses()->within($distance, $measurementUnit, $latitude, $longitude)->get();
+        return $this
+            ->addresses()
+            ->within($distance, $measurementUnit, $latitude, $longitude)
+            ->get();
     }
 
     /**
      * Define a polymorphic one-to-many relationship.
      *
-     * @inheritdoc
-     *
-     * @see \Illuminate\Database\Eloquent\Concerns\HasRelationships::morphMany
+     * {@inheritdoc}
      *
      * @param string $related
      * @param string $name
@@ -83,6 +79,13 @@ trait Addressable
      * @param string|null $localKey
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @see \Illuminate\Database\Eloquent\Concerns\HasRelationships::morphMany
      */
-    abstract public function morphMany($related, $name, $type = null, $id = null, $localKey = null);
+    abstract public function morphMany(
+        string $related,
+        string $name,
+        ?string $type = null,
+        ?string $id = null,
+        ?string $localKey = null
+    ): MorphMany;
 }

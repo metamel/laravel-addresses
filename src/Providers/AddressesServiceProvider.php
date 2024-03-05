@@ -8,20 +8,32 @@ use Illuminate\Support\ServiceProvider;
 
 class AddressesServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-        $this->app->singleton('metamel.addresses.models.address', config('addresses.models.address'));
-    }
-
     public function boot(): void
     {
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
+
         $this->publishes(
             [
-                __DIR__.'/../../config/addresses.php' => config_path('addresses.php'),
+                __DIR__ . '/../../config/addresses.php' => config_path('addresses.php'),
             ],
             'addresses-config'
         );
 
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+    }
+
+    public function register(): void
+    {
+        $this->app->singleton(
+            'metamel.addresses.models.address',
+            config('addresses.models.address'),
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/addresses.php',
+            'addresses',
+        );
     }
 }
